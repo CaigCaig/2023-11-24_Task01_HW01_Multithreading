@@ -13,12 +13,14 @@ using namespace std::chrono_literals;
 //
 // Второй поток имитирует операциониста : раз в 2 секунды он обращается к счётчику клиентов и уменьшает его на 1. «Операционист» работает до последнего клиента.
 
+constexpr int clients_max = 10;
+
 int clients_counter = 1;
 
 namespace {
 	void client(void)
 	{
-		while (1)
+		while (clients_counter < clients_max)
 		{
 			this_thread::sleep_for(1s);
 			clients_counter++;
@@ -50,5 +52,4 @@ int main()
 	t_client.join();
 	t_manager.join();
 	system("pause");
-    return 0;
 }
